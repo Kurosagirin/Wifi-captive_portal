@@ -15,7 +15,24 @@
         {% endfor %}
     </ul>
 {% else %}
-    <p>No portals are configured or you do not have permissions to any portal.</p>
+    <div class="card empty-state">
+        <p class="empty-title">No portals are available yet.</p>
+        <p>No portals are configured or your account is not assigned to a portal group.</p>
+        {% if user.is_staff %}
+            <p class="empty-actions">
+                <a class="btn-primary" href="{% url 'admin:voucher_portal_add' %}">Add Portal</a>
+                <a class="btn-secondary" href="{% url 'admin:index' %}">Open Admin</a>
+            </p>
+            <ol>
+                <li>Create a Group in Admin.</li>
+                <li>Create a Print Template.</li>
+                <li>Create a Portal and assign that Group under "allow printing".</li>
+                <li>Add yourself to that Group.</li>
+            </ol>
+        {% else %}
+            <p>Ask an administrator to assign your account to a portal group.</p>
+        {% endif %}
+    </div>
 {% endif %}
 {% endblock %}
 
