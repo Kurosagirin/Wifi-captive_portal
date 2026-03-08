@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" type="text/css" href="{% static 'voucher/style.css' %}">
+{% endblock %}
+
+
+{% block content%}
+<h1>Choose Portal</h1>
+{% if object_list %}
+    <ul class="portal-grid">
+        {% for portal in object_list %}
+            <li><a href="{% url 'voucher:portal' portal.id %}">{{portal.name}}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No portals are configured or you do not have permissions to any portal.</p>
+{% endif %}
+{% endblock %}
+

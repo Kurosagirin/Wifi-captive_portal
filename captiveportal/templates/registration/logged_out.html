@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="/">Home</a></div>{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+
+{% block content %}
+
+<div class="auth-shell">
+	<h1>Signed Out</h1>
+	<p class="auth-subtitle">Your session has ended safely.</p>
+	<p><a class="btn-primary" href="/">Log in again</a></p>
+</div>
+
+{% endblock %}

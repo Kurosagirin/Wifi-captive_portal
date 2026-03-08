@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static "voucher/style.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "css/forms.css" %}">
+
+{% endblock %}
+{% block title %}Voucher Type Selection{% endblock %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="/">Home</a>
+&rsaquo; <a href="{% url 'voucher:portal' portal.pk %}">{{ portal.name }}</a>
+</div>
+{% endblock %}
+
+
+{% block content%}
+
+<h1>Portal Information:</h1>
+<table>
+    <tr>
+        <th>Name:</th>
+        <td>{{portal.name}}</td>
+    </tr>
+    <tr>
+        <th>Location:</th>
+        <td>{{portal.location}}</td>
+    </tr>
+    <tr>
+        <th>SSID:</th>
+        <td>{{portal.ssid}}</td>
+    </tr>
+    <tr>
+        <th>Password:</th>
+        <td>{{portal.psk}}</td>
+    </tr>
+</table>
+
+<h1>Choose vouchers to print:</h1>
+{% if portal.available_rolls %}
+    <form action="" method="POST">
+    {%csrf_token%}
+    <div>
+        <fieldset class="module aligned">
+            <h2>Choose vouchers to print</h2>
+            <div class="form-row field-roll">
+                <div>
+                    <label class="required" for="roll_id">Voucher type</label>
+                    <select id="roll_id" name="roll_id">
+                       {% for roll in portal.available_rolls %}
+                            <option {%if roll.id == roll_id %}selected="selected"{%endif%} value="{{roll.id}}">{{roll.description}} - {{roll.time_limit}} - {{roll.remaining_vouchers}} available</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row field-printer-type">
+                <div>
+                    <label class="required" for="printtemplate_id">Print template</label>
+                    <select name="printtemplate_id">
+                        {% for template in portal.print_templates.all %}
+                            <option {% if printtemplate_id == template.id %}selected="selected"{%endif%} value="{{template.id}}">{{template.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row field-quantity">
+                <div>
+                    <label class="required" for="quantity">Quantity</label>
+                    <input type="number" name="quantity" id="quantity" min="1" max="100" value="{{quantity}}" />
+                    <div class="help">Once you click print the vouchers will be marked as used and cannot be printed again. 
+                        If you are unsure your printer is working properly, try only printing 1 or 2 vouchers so not many get wasted.
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="submit-row">
+            <input type="submit" value="Print">
+        </div>
+    </div> 
+    </form>
+{% else %}
+    <p>No voucher types are available for this portal. Please ask IT to issue more vouchers.</p>
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,9 @@
+db.sqlite3
+db.sqlite3-journal
+*.swo
+*.swp
+*.pyc
+venv/
+captiveportal/static/*
+!captiveportal/static/.empty
+local-docker-compose.yml
